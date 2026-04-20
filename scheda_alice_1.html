@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080808">
+<title>Scheda Allenamento — Alice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080808;
+  --s1:        #101010;
+  --s2:        #181818;
+  --s3:        #202020;
+  --b1:        rgba(255,255,255,.05);
+  --b2:        rgba(255,255,255,.10);
+  --b3:        rgba(255,255,255,.16);
+  --green:     #22c55e;
+  --green2:    #4ade80;
+  --green-dim: rgba(34,197,94,.11);
+  --green-dim2:rgba(34,197,94,.22);
+  --white:     #f0f0f0;
+  --gray1:     #a0a0a0;
+  --gray2:     #606060;
+  --gray3:     #303030;
+  --font-d:    'Bebas Neue', sans-serif;
+  --font-b:    'DM Sans', sans-serif;
+  --r:         10px;
+  --r2:        16px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-b);
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray3); border-radius: 3px; }
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 300;
+  background: rgba(8,8,8,.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--b2);
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  padding-top: env(safe-area-inset-top);
+}
+
+.logo { display: flex; align-items: center; gap: 11px; }
+
+.logo-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-d);
+  font-size: 17px; letter-spacing: 0;
+  color: #000; flex-shrink: 0;
+}
+
+.logo-text { font-family: var(--font-d); font-size: 16px; letter-spacing: 1px; line-height: 1; }
+.logo-sub { font-family: var(--font-b); font-size: 10px; font-weight: 400; color: var(--gray2); margin-top: 2px; display: block; }
+
+.tabs-wrap {
+  display: flex;
+  background: var(--s2);
+  border: 1px solid var(--b2);
+  border-radius: 8px;
+  padding: 3px; gap: 3px;
+}
+
+.tab-btn {
+  padding: 5px 18px;
+  border-radius: 6px; border: none;
+  background: transparent;
+  color: var(--gray2);
+  font-family: var(--font-d);
+  font-size: 14px; letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.tab-btn.active { background: var(--green); color: #000; }
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero {
+  position: relative; overflow: hidden;
+  padding: 48px 24px 40px;
+  border-bottom: 1px solid var(--b1);
+}
+
+.hero::after {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 55%; height: 100%;
+  background: radial-gradient(ellipse 70% 80% at 80% 30%, rgba(34,197,94,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-bg-text {
+  position: absolute; bottom: -10px; right: -4px;
+  font-family: var(--font-d);
+  font-size: clamp(80px, 16vw, 140px);
+  letter-spacing: -2px;
+  color: rgba(255,255,255,.025);
+  user-select: none; pointer-events: none;
+  line-height: 1;
+}
+
+.hero-label {
+  font-family: var(--font-b);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--green2);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.hero-label::before {
+  content: ''; width: 20px; height: 2px;
+  background: var(--green); display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(36px, 7.5vw, 64px);
+  letter-spacing: 1px; line-height: .95;
+  margin-bottom: 16px;
+}
+
+.hero-title em { color: var(--green); font-style: normal; }
+
+.hero-desc {
+  font-size: 13px; font-weight: 300;
+  color: var(--gray1); line-height: 1.7;
+  max-width: 500px; margin-bottom: 26px;
+}
+
+.hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px; border-radius: 6px;
+  border: 1px solid var(--b2);
+  font-size: 11px; color: var(--gray1);
+  background: var(--s1); letter-spacing: .3px;
+}
+
+.pill-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+/* ── DAY PANEL ──────────────────────────────────────────────── */
+.day-panel { display: none; padding: 24px 18px 90px; max-width: 820px; margin: 0 auto; }
+.day-panel.active { display: block; }
+
+.day-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--b2);
+  margin-bottom: 22px;
+}
+
+.day-header h2 { font-family: var(--font-d); font-size: 26px; letter-spacing: 1.5px; }
+.day-header h2 em { color: var(--green); font-style: normal; }
+.day-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11px; color: var(--gray2); }
+
+.sec-div {
+  display: flex; align-items: center; gap: 12px;
+  margin: 26px 0 14px;
+}
+
+.sec-div-line { flex: 1; height: 1px; background: var(--b2); }
+.sec-div-label {
+  font-family: var(--font-d);
+  font-size: 12px; letter-spacing: 2.5px;
+  color: var(--gray3); white-space: nowrap;
+}
+
+/* ── EXERCISE CARD ──────────────────────────────────────────── */
+.ex-card {
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: var(--r2);
+  margin-bottom: 14px; overflow: hidden;
+  transition: border-color .2s, transform .15s;
+}
+
+.ex-card:hover { border-color: var(--b2); }
+
+.ex-head {
+  display: flex; align-items: center;
+  padding: 14px 18px; gap: 13px;
+  cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--b1);
+}
+
+.ex-num {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-d);
+  font-size: 15px; color: #000; flex-shrink: 0;
+}
+
+.ex-head-info { flex: 1; min-width: 0; }
+
+.ex-cat {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green2); margin-bottom: 3px;
+}
+
+.ex-name {
+  font-family: var(--font-d);
+  font-size: 17px; letter-spacing: .5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.ex-toggle {
+  width: 26px; height: 26px; border-radius: 6px;
+  border: 1px solid var(--b2);
+  background: transparent; color: var(--gray2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; cursor: pointer;
+  transition: all .2s; flex-shrink: 0;
+}
+
+.ex-card.open .ex-toggle { background: var(--green); border-color: var(--green); color: #000; }
+
+.ex-stats { display: flex; border-bottom: 1px solid var(--b1); }
+.ex-stat { flex: 1; padding: 10px 14px; border-right: 1px solid var(--b1); }
+.ex-stat:last-child { border-right: none; }
+
+.ex-stat-lbl {
+  font-size: 8px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gray3); margin-bottom: 4px;
+}
+
+.ex-stat-val { font-family: var(--font-d); font-size: 14px; letter-spacing: .3px; }
+.ex-stat-val.green { color: var(--green2); }
+.ex-stat-val.gray  { color: var(--gray1); }
+
+.ex-body { display: none; flex-direction: column; gap: 0; }
+.ex-card.open .ex-body { display: flex; }
+
+.inner-tabs { display: flex; border-bottom: 1px solid var(--b2); background: var(--s2); }
+
+.inner-tab {
+  flex: 1; padding: 9px 12px;
+  font-family: var(--font-b);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--gray2);
+  background: transparent; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+}
+
+.inner-tab.active { color: var(--white); border-bottom-color: var(--green); }
+.inner-pane { display: none; }
+.inner-pane.active { display: block; }
+
+.exec-pane-inner { display: flex; gap: 0; }
+@media (max-width: 580px) { .exec-pane-inner { flex-direction: column; } }
+
+.ex-cues { flex: 1; padding: 16px 18px; border-right: 1px solid var(--b1); }
+@media (max-width: 580px) { .ex-cues { border-right: none; border-bottom: 1px solid var(--b1); } }
+
+.ex-cues h4 {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gray2); margin-bottom: 10px;
+}
+
+.cue-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 7px 0; border-bottom: 1px solid var(--b1);
+  font-size: 12px; line-height: 1.5; color: var(--gray1);
+}
+.cue-item:last-of-type { border-bottom: none; }
+
+.cue-dot {
+  width: 16px; height: 16px; border-radius: 4px;
+  background: var(--green-dim); color: var(--green2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+.ex-note {
+  margin-top: 11px; padding: 8px 12px;
+  background: var(--green-dim); border: 1px solid var(--green-dim2);
+  border-radius: 7px;
+  font-size: 11px; color: #86efac; line-height: 1.5;
+}
+
+.ex-note::before { content: '🩰  '; }
+
+.ex-video {
+  width: 240px; flex-shrink: 0;
+  padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+@media (max-width: 580px) { .ex-video { width: 100%; } }
+
+.video-lbl { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray3); }
+
+.video-wrap {
+  position: relative; border-radius: var(--r);
+  overflow: hidden; background: #000;
+  aspect-ratio: 16/9; border: 1px solid var(--b2);
+}
+
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+.video-ph {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  background: var(--s2); cursor: pointer; transition: background .2s;
+}
+
+.video-ph:hover { background: var(--s3); }
+
+.play-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: #000;
+}
+
+.video-ph p { font-size: 10px; color: var(--gray2); text-align: center; padding: 0 10px; }
+.video-cap { font-size: 10px; color: var(--gray3); line-height: 1.5; }
+
+/* ── KG TRACKER ─────────────────────────────────────────────── */
+.kg-pane { padding: 16px 18px; }
+
+.kg-pane-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+
+.kg-pane-title { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray2); }
+
+.kg-clear-btn { font-size: 10px; color: var(--gray3); background: none; border: none; cursor: pointer; transition: color .15s; }
+.kg-clear-btn:hover { color: var(--green2); }
+
+.kg-weeks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 400px) { .kg-weeks { grid-template-columns: repeat(2, 1fr); } }
+
+.kg-week-col {
+  background: var(--s2); border: 1px solid var(--b2);
+  border-radius: var(--r); overflow: hidden;
+}
+
+.kg-week-head {
+  padding: 6px 10px; font-family: var(--font-d);
+  font-size: 12px; letter-spacing: 1px;
+  color: var(--gray2); background: var(--s3);
+  border-bottom: 1px solid var(--b2); text-align: center;
+}
+
+.kg-week-col.best-week .kg-week-head { background: var(--green-dim2); color: var(--green2); }
+
+.kg-input-wrap { padding: 10px 8px; display: flex; flex-direction: column; gap: 6px; }
+.kg-field-label { font-size: 9px; color: var(--gray3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+
+.kg-input {
+  width: 100%; background: var(--bg);
+  border: 1px solid var(--b2); border-radius: 6px;
+  padding: 6px 8px; font-family: var(--font-b);
+  font-size: 14px; font-weight: 600;
+  color: var(--white); text-align: center;
+  transition: border-color .15s;
+  -moz-appearance: textfield;
+}
+
+.kg-input::-webkit-inner-spin-button, .kg-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.kg-input:focus { outline: none; border-color: var(--green); }
+.kg-input::placeholder { color: var(--gray3); font-size: 11px; font-weight: 400; }
+
+.kg-delta { text-align: center; font-size: 11px; font-weight: 600; height: 16px; transition: color .2s; }
+.kg-delta.up   { color: var(--green2); }
+.kg-delta.down { color: var(--gray2); }
+.kg-delta.same { color: var(--gray3); }
+
+.kg-best-row {
+  margin-top: 12px; padding: 8px 10px;
+  background: var(--green-dim); border: 1px solid var(--green-dim2);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px;
+}
+.kg-best-row span:first-child { color: var(--gray2); }
+.kg-best-row strong { color: var(--green2); font-size: 14px; }
+
+/* ── NOTES BOX ──────────────────────────────────────────────── */
+.notes-box {
+  background: var(--s1); border: 1px solid var(--b2);
+  border-radius: var(--r2); padding: 20px 22px; margin-top: 28px;
+}
+
+.notes-box h3 {
+  font-family: var(--font-d); font-size: 14px;
+  letter-spacing: 2px; color: var(--green2);
+  margin-bottom: 16px;
+}
+
+.notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .notes-grid { grid-template-columns: 1fr; } }
+
+.note-item {
+  background: var(--s2); border: 1px solid var(--b1);
+  border-radius: var(--r); padding: 12px 14px;
+  font-size: 12px; color: var(--gray1); line-height: 1.6;
+}
+
+.note-item strong { display: block; margin-bottom: 5px; color: var(--white); font-size: 12px; }
+
+/* ── DANCE NOTE ─────────────────────────────────────────────── */
+.dance-box {
+  background: linear-gradient(135deg, rgba(34,197,94,.06) 0%, rgba(34,197,94,.02) 100%);
+  border: 1px solid var(--green-dim2);
+  border-radius: var(--r2); padding: 18px 22px; margin-top: 22px;
+}
+
+.dance-box h3 {
+  font-family: var(--font-d); font-size: 14px;
+  letter-spacing: 2px; color: var(--green2);
+  margin-bottom: 12px;
+}
+
+.dance-list { list-style: none; }
+.dance-list li {
+  padding: 6px 0; border-bottom: 1px solid var(--b1);
+  font-size: 12px; color: var(--gray1); line-height: 1.6;
+  padding-left: 18px; position: relative;
+}
+.dance-list li::before { content: '🩰'; position: absolute; left: 0; font-size: 10px; top: 7px; }
+.dance-list li:last-child { border-bottom: none; }
+
+/* ── FINISHER ───────────────────────────────────────────────── */
+.finisher-box {
+  background: var(--s2); border: 1px solid var(--b2);
+  border-radius: var(--r2); padding: 16px 20px; margin-top: 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+
+.finisher-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--green-dim2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+
+.finisher-text { font-size: 12px; color: var(--gray1); line-height: 1.7; }
+.finisher-text strong { color: var(--white); display: block; margin-bottom: 2px; font-family: var(--font-d); font-size: 14px; letter-spacing: .5px; }
+
+/* ── FOOTER BAR ─────────────────────────────────────────────── */
+.footer-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(8,8,8,.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--b2);
+  padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 14px;
+}
+
+.footer-left { font-size: 11px; color: var(--gray2); white-space: nowrap; }
+.footer-left strong { color: var(--green2); }
+
+.progress-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+
+.progress-bar {
+  flex: 1; height: 4px; background: var(--gray3);
+  border-radius: 2px; overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%; background: var(--green);
+  border-radius: 2px; transition: width .4s ease;
+}
+
+.progress-lbl { font-size: 11px; color: var(--gray2); white-space: nowrap; }
+
+/* ── OPTIONAL CARDIO TAG ─────────────────────────────────────── */
+.optional-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--green-dim); border: 1px solid var(--green-dim2);
+  font-size: 10px; color: var(--green2); font-weight: 600;
+  letter-spacing: .5px; margin-top: 8px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div>
+      <div class="logo-text">ALICE</div>
+      <span class="logo-sub">PT Lele · Scheda Casa</span>
+    </div>
+  </div>
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="showDay(1)">D1</button>
+    <button class="tab-btn" onclick="showDay(2)">D2</button>
+    <button class="tab-btn" onclick="showDay(3)">D3</button>
+  </div>
+</header>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-bg-text">ALICE</div>
+  <div class="hero-label">Programma personalizzato</div>
+  <h1 class="hero-title">FORZA &<br><em>MOVIMENTO</em></h1>
+  <p class="hero-desc">
+    3 sessioni settimanali · allenamento a casa · complementare alla danza.
+    Obiettivo: tono muscolare, forza funzionale e stabilità — senza sovraccaricare chi già si muove ogni giorno.
+  </p>
+  <div class="hero-pills">
+    <div class="pill"><div class="pill-dot" style="background:var(--green)"></div>Casa · pochi attrezzi</div>
+    <div class="pill"><div class="pill-dot" style="background:var(--green)"></div>1.60m · 52 kg</div>
+    <div class="pill"><div class="pill-dot" style="background:#a78bfa"></div>Danza 5×/settimana</div>
+    <div class="pill"><div class="pill-dot" style="background:var(--gray2)"></div>4 settimane</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- DAY 1 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="day-panel active" id="day1">
+  <div class="day-header">
+    <h2>DAY <em>1</em> — GAMBE · BICIPITI · SPALLE</h2>
+    <div class="day-meta">
+      <span>⏱ ~50 min</span>
+      <span>🏠 Casa</span>
+    </div>
+  </div>
+
+  <!-- GAMBE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">GAMBE</div><div class="sec-div-line"></div></div>
+
+  <!-- 1. Hip Thrust -->
+  <div class="ex-card" id="d1ex1">
+    <div class="ex-head" onclick="toggleEx('d1ex1')">
+      <div class="ex-num">1</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Gluteo · Femorali</div>
+        <div class="ex-name">Hip Thrust con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×8</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">2:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Target</div><div class="ex-stat-val">Gluteo Max</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex1')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex1')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex1">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Schiena appoggiata al divano o al letto all'altezza delle scapole</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Manubrio posizionato sul bacino — tienilo fermo con le mani</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Retroversione costante: schiaccia il bacino verso l'alto contraendo il gluteo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>2 secondi di fermo in alto — senti il gluteo lavorare</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Piedi a larghezza fianchi, talloni premuti a terra</div>
+            <p class="ex-note">Aumenta il carico ogni settimana — questo è il tuo esercizio principale per il gluteo. Massima concentrazione qui.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/LM8XHLYJoYs?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Hip Thrust manubrio</p>
+              </div>
+            </div>
+            <div class="video-cap">Gluteo Massimo · Femorali · Core</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex1">
+        <div class="kg-pane" data-ex="d1ex1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Squat Jump -->
+  <div class="ex-card" id="d1ex2">
+    <div class="ex-head" onclick="toggleEx('d1ex2')">
+      <div class="ex-num">2</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Quadricipiti · Gluteo</div>
+        <div class="ex-name">Squat Jump con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Stile</div><div class="ex-stat-val">Effetto molla</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex2')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex2')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex2">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Attenzione sul gluteo e quadricipite durante la discesa</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>1 secondo di fermo in allungamento (in basso)</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Ripartenza esplosiva verso l'alto</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Ginocchia in linea con le punte dei piedi — no valgismo</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/CVaEhXotL7M?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Squat Jump</p>
+              </div>
+            </div>
+            <div class="video-cap">Quadricipiti · Gluteo · Polpacci</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex2">
+        <div class="kg-pane" data-ex="d1ex2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Hip Laterale -->
+  <div class="ex-card" id="d1ex3">
+    <div class="ex-head" onclick="toggleEx('d1ex3')">
+      <div class="ex-num">3</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Gluteo Medio</div>
+        <div class="ex-name">Hip Laterale (Clamshell / Kickback)</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Target</div><div class="ex-stat-val">Gluteo Medio</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex3')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex3')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex3">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Spinta verso l'alto esplosiva con 1-2 sec di fermo in contrazione</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Non compensare con il fianco — tronco fermo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Se hai un elastico usalo — amplifica tantissimo il lavoro del gluteo medio</div>
+            <p class="ex-note">Il gluteo medio è spesso debole nelle ballerine — questo esercizio migliora direttamente la tua stabilità nelle puntate e nei salti.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/Ec6J4SAEBpA?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Hip Laterale / Clamshell</p>
+              </div>
+            </div>
+            <div class="video-cap">Gluteo Medio · Stabilità Anca</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex3">
+        <div class="kg-pane" data-ex="d1ex3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Affondo in Allungo -->
+  <div class="ex-card" id="d1ex4">
+    <div class="ex-head" onclick="toggleEx('d1ex4')">
+      <div class="ex-num">4</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Gluteo · Quadricipiti</div>
+        <div class="ex-name">Affondo in Allungo</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">3×max</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Gluteo Basso</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex4')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex4')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex4">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Trova il giusto allungamento per il gluteo basso — la sensazione di stiramento è buona</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Ginocchio posteriore quasi a terra — senza toccare con forza</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Busto eretto durante tutto il movimento</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Alterna le gambe o fai un lato alla volta</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/GNGCFd3b3yE?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Affondo in allungo</p>
+              </div>
+            </div>
+            <div class="video-cap">Gluteo · Quadricipiti · Flessori Anca</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex4">
+        <div class="kg-pane" data-ex="d1ex4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BICIPITI -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">BICIPITI</div><div class="sec-div-line"></div></div>
+
+  <!-- 5. Curl Manubri -->
+  <div class="ex-card" id="d1ex5">
+    <div class="ex-head" onclick="toggleEx('d1ex5')">
+      <div class="ex-num">5</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Bicipiti</div>
+        <div class="ex-name">Curl con Manubri</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Carico</div><div class="ex-stat-val gray">≥ 4 kg</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val">1:30</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex5')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex5')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex5">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Massimo 90° di chiusura del gomito — non portare il manubrio alla spalla</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Gomiti fissi ai fianchi — non dondolare il busto</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Discesa lenta e controllata (2 secondi)</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/ykJmrZ5v0Oo?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Curl Manubri</p>
+              </div>
+            </div>
+            <div class="video-cap">Bicipite Brachiale · Brachiale</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex5">
+        <div class="kg-pane" data-ex="d1ex5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Hammer Curl -->
+  <div class="ex-card" id="d1ex6">
+    <div class="ex-head" onclick="toggleEx('d1ex6')">
+      <div class="ex-num">6</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Bicipiti · Avambraccio</div>
+        <div class="ex-name">Hammer Curl con Manubri</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Presa</div><div class="ex-stat-val">Neutrale</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex6')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex6')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex6">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Presa neutra (pollice verso l'alto) per tutto il movimento</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Stessi cues del curl — gomiti fissi, discesa lenta</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Rinforza l'avambraccio — utile per sostenere i partner in danza</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/zC3nLlEvin4?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Hammer Curl</p>
+              </div>
+            </div>
+            <div class="video-cap">Bicipite · Brachioradiale · Avambraccio</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex6">
+        <div class="kg-pane" data-ex="d1ex6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPALLE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">SPALLE</div><div class="sec-div-line"></div></div>
+
+  <!-- 7. Alzate Laterali -->
+  <div class="ex-card" id="d1ex7">
+    <div class="ex-head" onclick="toggleEx('d1ex7')">
+      <div class="ex-num">7</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Deltoide Laterale</div>
+        <div class="ex-name">Alzate Laterali con Manubri</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Carico</div><div class="ex-stat-val gray">= Bicipiti</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val">1:30</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex7')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex7')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex7">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Gomiti leggermente piegati — non alzare rigido</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Arriva appena sotto l'altezza delle spalle — non sopra</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Discesa lenta: 2-3 secondi</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Non usare il trapezio — la spalla deve guidare il movimento</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/3VcKaXpzqRo?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Alzate Laterali</p>
+              </div>
+            </div>
+            <div class="video-cap">Deltoide Laterale · Trapezio Superiore</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex7">
+        <div class="kg-pane" data-ex="d1ex7"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Face Pull con Elastico (aggiunto) -->
+  <div class="ex-card" id="d1ex8">
+    <div class="ex-head" onclick="toggleEx('d1ex8')">
+      <div class="ex-num">8</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Spalla Posteriore · Postura</div>
+        <div class="ex-name">Face Pull con Elastico</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">3×15</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Attrezzo</div><div class="ex-stat-val">Elastico</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d1ex8')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d1ex8')">📊 Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d1ex8">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Fissa l'elastico a un'altezza di poco sopra gli occhi (porta, maniglia alta)</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Tira verso il viso aprendo i gomiti verso l'esterno — "ali di pollo"</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>2 secondi di fermo con la contrazione posteriore</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Scapole strette sul finale — senti il deltoide posteriore</div>
+            <p class="ex-note">Essenziale per chi danza: bilancia il lavoro frontale delle braccia e migliora la postura delle spalle. Non saltarlo mai.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/V8dZ3pyiCBo?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Face Pull elastico</p>
+              </div>
+            </div>
+            <div class="video-cap">Deltoide Post. · Rotatori Esterni · Postura</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d1ex8">
+        <div class="kg-pane" data-ex="d1ex8"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">CORE</div><div class="sec-div-line"></div></div>
+
+  <div class="finisher-box">
+    <div class="finisher-icon">🧘</div>
+    <div class="finisher-text">
+      <strong>PLANK + PLANK LATERALI ALTERNATI</strong>
+      3 serie a cedimento · Recupero 45" tra le serie<br>
+      <span class="optional-tag">🚴 Cyclette/Ellittica 15 min — opzionale (sei già cardio attiva)</span>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h3>NOTE DAY 1</h3>
+    <div class="notes-grid">
+      <div class="note-item"><strong>🔥 Riscaldamento</strong>5 min mobilità anca + 2 serie leggere di squat senza peso. Niente cyclette — risparmi energie.</div>
+      <div class="note-item"><strong>🥗 Nutrizione</strong>Con 5 giorni di danza bruci tantissimo. Punta a 1.6–2g proteine/kg/die (~80–100g). Non stare in deficit eccessivo.</div>
+      <div class="note-item"><strong>💪 Progressione</strong>Aumenta il carico solo quando esegui tutte le reps con tecnica perfetta per 2 settimane consecutive.</div>
+      <div class="note-item"><strong>🩰 Sinergia Danza</strong>Hip laterale e face pull migliorano direttamente stabilità e postura nella danza. Priorità assoluta su questi.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- DAY 2 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="day-panel" id="day2">
+  <div class="day-header">
+    <h2>DAY <em>2</em> — GAMBE · TRICIPITI · SPALLE</h2>
+    <div class="day-meta">
+      <span>⏱ ~50 min</span>
+      <span>🏠 Casa</span>
+    </div>
+  </div>
+
+  <!-- GAMBE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">GAMBE</div><div class="sec-div-line"></div></div>
+
+  <!-- 1. Affondo Bulgaro -->
+  <div class="ex-card" id="d2ex1">
+    <div class="ex-head" onclick="toggleEx('d2ex1')">
+      <div class="ex-num">1</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Gluteo · Quadricipiti · Equilibrio</div>
+        <div class="ex-name">Affondo Bulgaro con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×8</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Carico</div><div class="ex-stat-val gray">Hip Thrust</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val">1:30</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex1')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex1')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex1">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Piede posteriore su una sedia o divano (non troppo alto)</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>½ passo dalla panca — busto traverso rispetto al pavimento</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Manubrio tenuto sul lato del piede anteriore</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Attenzione alla caviglia posteriore: non sovraccaricarla. Se hai dolore, fermati subito.</div>
+            <p class="ex-note">Esercizio impegnativo per l'equilibrio — ottimo per ballerine. Inizia senza carico per trovare la posizione giusta.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/2C-uNgKwPLE?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Affondo Bulgaro</p>
+              </div>
+            </div>
+            <div class="video-cap">Gluteo · Quadricipiti · Stabilità Anca</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex1">
+        <div class="kg-pane" data-ex="d2ex1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Squat Jump Manubrio -->
+  <div class="ex-card" id="d2ex2">
+    <div class="ex-head" onclick="toggleEx('d2ex2')">
+      <div class="ex-num">2</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Quadricipiti · Gluteo</div>
+        <div class="ex-name">Squat Jump con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Esplosività</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex2')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex2')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex2">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Stesso schema del Day 1 — stesso carico o leggermente più pesante</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Recupero più lungo rispetto al Day 1 per qualità dell'esplosività</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/CVaEhXotL7M?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Squat Jump</p>
+              </div>
+            </div>
+            <div class="video-cap">Quadricipiti · Gluteo · Polpacci</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex2">
+        <div class="kg-pane" data-ex="d2ex2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Leg Extension -->
+  <div class="ex-card" id="d2ex3">
+    <div class="ex-head" onclick="toggleEx('d2ex3')">
+      <div class="ex-num">3</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Quadricipiti</div>
+        <div class="ex-name">Leg Extension (con manubrio tra i piedi)</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×15</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Fermo</div><div class="ex-stat-val">Nessuno</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex3')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex3')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex3">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Seduta sul bordo di una sedia, manubrio leggero stretto tra le caviglie</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Estendi la gamba completamente — nessun fermo in alto</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Discesa controllata — non lasciar cadere</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/YyvSfVjQeL0?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Leg Extension casa</p>
+              </div>
+            </div>
+            <div class="video-cap">Quadricipiti · Retto Femorale</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex3">
+        <div class="kg-pane" data-ex="d2ex3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRICIPITI -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">TRICIPITI</div><div class="sec-div-line"></div></div>
+
+  <!-- 4. French Press -->
+  <div class="ex-card" id="d2ex4">
+    <div class="ex-head" onclick="toggleEx('d2ex4')">
+      <div class="ex-num">4</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Tricipiti</div>
+        <div class="ex-name">French Press con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Carico</div><div class="ex-stat-val gray">≥ 4 kg</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val">1:30</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex4')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex4')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex4">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Seduta o in piedi — manubrio dietro la testa con entrambe le mani</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Gomiti puntati verso il soffitto — non farli aprire</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Estendi completamente il braccio in alto</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/ir5PsbniVSc?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>French Press manubrio</p>
+              </div>
+            </div>
+            <div class="video-cap">Tricipiti · Capo Lungo</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex4">
+        <div class="kg-pane" data-ex="d2ex4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Piegamenti Presa Stretta -->
+  <div class="ex-card" id="d2ex5">
+    <div class="ex-head" onclick="toggleEx('d2ex5')">
+      <div class="ex-num">5</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Tricipiti · Petto</div>
+        <div class="ex-name">Piegamenti a Presa Stretta</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">3×max</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Tricipiti</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex5')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex5')">📊 Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex5">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Mani ravvicinate sotto il petto — pollici quasi a toccarsi</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Corpo rigido come un asse — core attivo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Gomiti che scorrono vicino al corpo durante la discesa</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/jox1rb5krQI?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Piegamenti presa stretta</p>
+              </div>
+            </div>
+            <div class="video-cap">Tricipiti · Deltoide Anteriore · Petto</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex5">
+        <div class="kg-pane" data-ex="d2ex5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPALLE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">SPALLE</div><div class="sec-div-line"></div></div>
+
+  <!-- 6. Alzate Laterali D2 -->
+  <div class="ex-card" id="d2ex6">
+    <div class="ex-head" onclick="toggleEx('d2ex6')">
+      <div class="ex-num">6</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Deltoide Laterale</div>
+        <div class="ex-name">Alzate Laterali con Manubri</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Carico</div><div class="ex-stat-val gray">= Bicipiti</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val">1:30</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d2ex6')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d2ex6')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d2ex6">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Stessi cues del Day 1 — mantieni la tecnica pulita anche a fine sessione</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Se sei stanca, riduci il carico ma non saltarlo</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/3VcKaXpzqRo?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Alzate Laterali</p>
+              </div>
+            </div>
+            <div class="video-cap">Deltoide Laterale</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d2ex6">
+        <div class="kg-pane" data-ex="d2ex6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">CORE</div><div class="sec-div-line"></div></div>
+
+  <div class="finisher-box">
+    <div class="finisher-icon">🧘</div>
+    <div class="finisher-text">
+      <strong>PLANK + PLANK LATERALI ALTERNATI</strong>
+      3 serie a cedimento · Recupero 45" tra le serie<br>
+      <span class="optional-tag">🚴 Cyclette/Ellittica 15 min — opzionale</span>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h3>NOTE DAY 2</h3>
+    <div class="notes-grid">
+      <div class="note-item"><strong>🔥 Riscaldamento</strong>5 min mobilità anca e spalle + 1 serie leggera per ogni primo esercizio del gruppo muscolare.</div>
+      <div class="note-item"><strong>🩰 Bulgaro e caviglia</strong>Sei ballerina — la caviglia posteriore nel bulgaro va protetta. Inizia senza peso. Se senti dolore alla caviglia, fermati e segnalami.</div>
+      <div class="note-item"><strong>💪 Tricipiti</strong>French press + piegamenti presa stretta = combo potente senza attrezzatura. Aumenta il carico del french press ogni 2 settimane.</div>
+      <div class="note-item"><strong>🧊 Defaticamento</strong>Stretching quadricipiti, femorali e tricipiti. 5 minuti — non saltarlo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- DAY 3 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="day-panel" id="day3">
+  <div class="day-header">
+    <h2>DAY <em>3</em> — DORSO · SPALLE · RICHIAMO GAMBE</h2>
+    <div class="day-meta">
+      <span>⏱ ~50 min</span>
+      <span>🏠 Casa</span>
+    </div>
+  </div>
+
+  <!-- DORSO -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">DORSO</div><div class="sec-div-line"></div></div>
+
+  <!-- 1. Rematore Bilanciere -->
+  <div class="ex-card" id="d3ex1">
+    <div class="ex-head" onclick="toggleEx('d3ex1')">
+      <div class="ex-num">1</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Dorsali · Bicipiti</div>
+        <div class="ex-name">Rematore con Bilanciere (presa supina)</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×8</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Presa</div><div class="ex-stat-val">Supina</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex1')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex1')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex1">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Presa con mani rivolte verso di te (presa supina) — attiva meglio i bicipiti</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Gambe e braccia parallele — busto inclinato ~45°</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Tira il bilanciere verso l'ombelico, non verso il petto</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Scapole che si stringono sul finale — non trascinare con le braccia</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/G8l_8chR5BE?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Rematore supino</p>
+              </div>
+            </div>
+            <div class="video-cap">Dorsali · Gran Dorsale · Bicipiti</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex1">
+        <div class="kg-pane" data-ex="d3ex1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Rematore Singolo Manubrio -->
+  <div class="ex-card" id="d3ex2">
+    <div class="ex-head" onclick="toggleEx('d3ex2')">
+      <div class="ex-num">2</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Dorsali · Stabilità Core</div>
+        <div class="ex-name">Rematore Singolo con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Altezza</div><div class="ex-stat-val">Spalle</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex2')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex2')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex2">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Appoggio con il ginocchio e la mano opposta al manubrio sul divano/letto</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Porta il gomito all'altezza della spalla o appena sopra</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Non ruotare il busto — core rigido, schiena parallela al pavimento</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Discesa lenta e controllata</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/pYcpY20QaE8?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Rematore singolo</p>
+              </div>
+            </div>
+            <div class="video-cap">Gran Dorsale · Romboidi · Core Anti-rotazione</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex2">
+        <div class="kg-pane" data-ex="d3ex2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. T-Bar Presa Stretta -->
+  <div class="ex-card" id="d3ex3">
+    <div class="ex-head" onclick="toggleEx('d3ex3')">
+      <div class="ex-num">3</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Dorsali · Romboidi</div>
+        <div class="ex-name">T-Bar Rematore (o Rematore con Manubri)</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×10</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Presa</div><div class="ex-stat-val">Stretta</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex3')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex3')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex3">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Se non hai T-bar: rematore con due manubri simultanei, presa neutrale</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Porta i gomiti vicino al corpo durante la trazione</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Busto inclinato stabile — non oscillare</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/FWJR5Ve8bnQ?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Rematore manubri presa stretta</p>
+              </div>
+            </div>
+            <div class="video-cap">Gran Dorsale · Romboidi · Trapezio Medio</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex3">
+        <div class="kg-pane" data-ex="d3ex3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPALLE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">SPALLE</div><div class="sec-div-line"></div></div>
+
+  <!-- 4. Military Press -->
+  <div class="ex-card" id="d3ex4">
+    <div class="ex-head" onclick="toggleEx('d3ex4')">
+      <div class="ex-num">4</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Deltoide Anteriore · Spalle</div>
+        <div class="ex-name">Military Press con Manubri</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×8</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:30</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Spinta</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex4')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex4')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex4">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Seduta su sedia con schienale, schiena appoggiata</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Manubri all'altezza delle orecchie, gomiti a 90°</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Spingi verso l'alto senza inarcare la schiena — core attivo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Non bloccare i gomiti in alto — torna subito controllando</div>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/qEwKCR5JCog?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Military Press manubri</p>
+              </div>
+            </div>
+            <div class="video-cap">Deltoide Anteriore · Trapezio · Tricipiti</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex4">
+        <div class="kg-pane" data-ex="d3ex4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RICHIAMO GAMBE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">RICHIAMO GAMBE</div><div class="sec-div-line"></div></div>
+
+  <!-- 5. Hip Thrust Bilanciere -->
+  <div class="ex-card" id="d3ex5">
+    <div class="ex-head" onclick="toggleEx('d3ex5')">
+      <div class="ex-num">5</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Gluteo · Femorali</div>
+        <div class="ex-name">Hip Thrust con Bilanciere</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×8</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">2:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Gluteo Max</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex5')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex5')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex5">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Schiena appoggiata alla panca all'altezza delle scapole — bilanciere sul bacino con cuscinetto o asciugamano</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Retroversione costante: schiaccia il bacino verso l'alto contraendo il gluteo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>2 secondi di fermo in alto — senti il gluteo lavorare al massimo</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Piedi a larghezza fianchi, talloni premuti a terra</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Non inarcare la lombare in alto — il movimento è il bacino, non la schiena</div>
+            <p class="ex-note">Versione con bilanciere del Day 1 — carico maggiore, stesso schema. Aumenta il peso rispetto al manubrio del Day 1.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/LM8XHLYJoYs?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Hip Thrust bilanciere</p>
+              </div>
+            </div>
+            <div class="video-cap">Gluteo Massimo · Femorali · Core</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex5">
+        <div class="kg-pane" data-ex="d3ex5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Leg Curl Prono con Manubrio -->
+  <div class="ex-card" id="d3ex6">
+    <div class="ex-head" onclick="toggleEx('d3ex6')">
+      <div class="ex-num">6</div>
+      <div class="ex-head-info">
+        <div class="ex-cat">Femorali · Zero carico lombare</div>
+        <div class="ex-name">Leg Curl Prono con Manubrio</div>
+      </div>
+      <button class="ex-toggle">▼</button>
+    </div>
+    <div class="ex-stats">
+      <div class="ex-stat"><div class="ex-stat-lbl">Serie × Reps</div><div class="ex-stat-val green">4×12</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Recupero</div><div class="ex-stat-val gray">1:00</div></div>
+      <div class="ex-stat"><div class="ex-stat-lbl">Focus</div><div class="ex-stat-val">Femorali</div></div>
+    </div>
+    <div class="ex-body">
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="switchTab(this,'exec-d3ex6')">Esecuzione</button>
+        <button class="inner-tab" onclick="switchTab(this,'kg-d3ex6')">📊 Kg · Progressione</button>
+      </div>
+      <div class="inner-pane active" id="exec-d3ex6">
+        <div class="exec-pane-inner">
+          <div class="ex-cues">
+            <h4>Cues di esecuzione</h4>
+            <div class="cue-item"><div class="cue-dot">✓</div>Sdraiata a pancia in giù sulla panca — manubrio stretto tra le caviglie/piedi</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Porta i talloni verso i glutei in modo controllato</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>1 secondo di fermo in alto — senti i femorali contratti</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Discesa lenta (2-3 sec) — la fase eccentrica è dove cresci</div>
+            <div class="cue-item"><div class="cue-dot">✓</div>Anche e bacino premuti sulla panca per tutta la serie — non sollevare il bacino</div>
+            <p class="ex-note">Zero stress sulla lombare — ideale per l'iperlordosi. Isola i femorali al 100% senza alcuna compensazione dalla schiena.</p>
+          </div>
+          <div class="ex-video">
+            <div class="video-lbl">Video esecuzione</div>
+            <div class="video-wrap">
+              <div class="video-ph" onclick="loadVideo(this,'https://www.youtube.com/embed/1Tq3QdYUuHs?autoplay=1&rel=0')">
+                <div class="play-btn">▶</div><p>Leg Curl prono manubrio</p>
+              </div>
+            </div>
+            <div class="video-cap">Femorali · Bicipite Femorale · Popliteo</div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="kg-d3ex6">
+        <div class="kg-pane" data-ex="d3ex6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE -->
+  <div class="sec-div"><div class="sec-div-line"></div><div class="sec-div-label">CORE</div><div class="sec-div-line"></div></div>
+
+  <div class="finisher-box">
+    <div class="finisher-icon">🧘</div>
+    <div class="finisher-text">
+      <strong>PLANK + PLANK LATERALI ALTERNATI</strong>
+      3 serie a cedimento · Recupero 45" tra le serie<br>
+      <span class="optional-tag">🚴 Cyclette/Ellittica 15 min — opzionale</span>
+    </div>
+  </div>
+
+  <div class="notes-box">
+    <h3>NOTE DAY 3</h3>
+    <div class="notes-grid">
+      <div class="note-item"><strong>🔥 Riscaldamento</strong>5 min mobilità spalle e bassa schiena. Cat-cow 10 ripetizioni prima dello stacco rumeno.</div>
+      <div class="note-item"><strong>🩰 Stacco Rumeno</strong>Completamente diverso dallo squat — allena i femorali che nella danza lavorano molto ma spesso in allungamento, non in contrazione. Bilancia perfettamente.</div>
+      <div class="note-item"><strong>💪 Dorso + Spalle</strong>Combinazione fondamentale per chi danza: migliora portamento, proiezione delle braccia e forza nelle coreografie.</div>
+      <div class="note-item"><strong>🧊 Fine settimana</strong>Congratulazioni — 3 sessioni completate. Ricorda: il riposo è parte dell'allenamento. Mangia bene nei giorni off.</div>
+    </div>
+  </div>
+
+  <div class="dance-box">
+    <h3>🩰 NOTA PER LA DANZATRICE</h3>
+    <ul class="dance-list">
+      <li>Non aggiungere cardio extra — la danza 5×/settimana è già un carico cardiovascolare elevato</li>
+      <li>Il gluteo medio (hip laterale) migliora direttamente la stabilità nelle puntate e nei salti</li>
+      <li>Il face pull bilancia il lavoro frontale delle braccia tipico della danza — protegge le spalle</li>
+      <li>Lo stacco rumeno allena i femorali in allungamento: esattamente come lavorano nelle grand battement</li>
+      <li>Punta a 80–100g di proteine al giorno: il tuo metabolismo è alto, non stare mai in deficit</li>
+      <li>Se senti stanchezza accumulata in settimana, riduci i carichi del 20% — non saltare, ma alleggerisci</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── FOOTER BAR ────────────────────────────────────────── -->
+<div class="footer-bar">
+  <div class="footer-left">PT <strong>Lele</strong> · 4 Sett.</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-lbl" id="progressLabel">0 / 0</div>
+  </div>
+</div>
+
+<script>
+const STORE = 'alice_kg_';
+
+function buildKgPane(pane) {
+  const exId = pane.dataset.ex;
+  const saved = JSON.parse(localStorage.getItem(STORE + exId) || '{"s1":"","s2":"","s3":"","s4":""}');
+  pane.innerHTML = `
+    <div class="kg-pane-header">
+      <span class="kg-pane-title">Carico Settimana · kg utilizzati</span>
+      <button class="kg-clear-btn" onclick="clearKg('${exId}')">Reset</button>
+    </div>
+    <div class="kg-weeks">
+      ${[1,2,3,4].map(w => `
+        <div class="kg-week-col" id="col-${exId}-s${w}">
+          <div class="kg-week-head">Sett. ${w}</div>
+          <div class="kg-input-wrap">
+            <div class="kg-field-label">kg</div>
+            <input class="kg-input" type="number" min="0" max="999" step="0.5"
+              placeholder="—" value="${saved['s'+w]}"
+              data-ex="${exId}" data-week="s${w}" oninput="saveKg(this)" />
+            <div class="kg-delta" id="delta-${exId}-s${w}"></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="kg-best-row" id="best-${exId}" style="display:none">
+      <span>🏆 Miglior carico</span>
+      <strong id="bestval-${exId}">—</strong>
+    </div>
+  `;
+  updateKgDeltas(exId);
+}
+
+function saveKg(input) {
+  const exId = input.dataset.ex;
+  const week = input.dataset.week;
+  const saved = JSON.parse(localStorage.getItem(STORE + exId) || '{}');
+  saved[week] = input.value;
+  localStorage.setItem(STORE + exId, JSON.stringify(saved));
+  updateKgDeltas(exId);
+}
+
+function clearKg(exId) {
+  localStorage.removeItem(STORE + exId);
+  const pane = document.querySelector(`[data-ex="${exId}"].kg-pane`);
+  buildKgPane(pane);
+}
+
+function updateKgDeltas(exId) {
+  const saved = JSON.parse(localStorage.getItem(STORE + exId) || '{}');
+  const vals = [1,2,3,4].map(w => parseFloat(saved['s'+w]) || 0);
+  let best = 0;
+  vals.forEach((v, i) => {
+    const deltaEl = document.getElementById(`delta-${exId}-s${i+1}`);
+    const colEl   = document.getElementById(`col-${exId}-s${i+1}`);
+    if (!deltaEl) return;
+    if (v > 0) best = Math.max(best, v);
+    if (i === 0 || vals[i-1] === 0) {
+      deltaEl.textContent = ''; deltaEl.className = 'kg-delta';
+      if (colEl) colEl.classList.remove('best-week');
+      return;
+    }
+    const diff = v - vals[i-1];
+    if (diff > 0) { deltaEl.textContent = `↑ +${diff.toFixed(1)} kg`; deltaEl.className = 'kg-delta up'; }
+    else if (diff < 0) { deltaEl.textContent = `↓ ${diff.toFixed(1)} kg`; deltaEl.className = 'kg-delta down'; }
+    else { deltaEl.textContent = v > 0 ? '= stabile' : ''; deltaEl.className = 'kg-delta same'; }
+  });
+  [1,2,3,4].forEach(w => {
+    const col = document.getElementById(`col-${exId}-s${w}`);
+    if (!col) return;
+    const v = parseFloat(saved['s'+w]) || 0;
+    if (best > 0 && v === best) col.classList.add('best-week');
+    else col.classList.remove('best-week');
+  });
+  const bestRow = document.getElementById(`best-${exId}`);
+  const bestVal = document.getElementById(`bestval-${exId}`);
+  if (bestRow && bestVal) {
+    if (best > 0) { bestRow.style.display = 'flex'; bestVal.textContent = best + ' kg'; }
+    else { bestRow.style.display = 'none'; }
+  }
+}
+
+function showDay(n) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day' + n).classList.add('active');
+  document.querySelectorAll('.tab-btn')[n - 1].classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleEx(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+  card.querySelector('.ex-toggle').textContent = card.classList.contains('open') ? '▲' : '▼';
+  if (card.classList.contains('open')) {
+    card.querySelectorAll('.kg-pane').forEach(p => {
+      if (!p.dataset.built) { buildKgPane(p); p.dataset.built = '1'; }
+    });
+  }
+  updateProgress();
+}
+
+function switchTab(btn, paneId) {
+  const body = btn.closest('.ex-body');
+  body.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.inner-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(paneId).classList.add('active');
+}
+
+function loadVideo(ph, url) {
+  const wrap = ph.parentElement;
+  const iframe = document.createElement('iframe');
+  iframe.src = url;
+  iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+  iframe.allowFullscreen = true;
+  Object.assign(iframe.style, { position:'absolute', inset:'0', width:'100%', height:'100%', border:'none' });
+  wrap.innerHTML = '';
+  wrap.appendChild(iframe);
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.ex-card').length;
+  const open  = document.querySelectorAll('.ex-card.open').length;
+  const pct   = total > 0 ? Math.round(open / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = open + ' / ' + total;
+}
+
+updateProgress();
+</script>
+</body>
+</html>
